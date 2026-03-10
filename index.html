@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Daily Tracker</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --primary-color: #4a90e2;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .reset-btn:hover {
+            background-color: #357abd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Daily Rituals</h2>
+    
+    <ul class="activity-list">
+        <li class="activity-item">
+            <input type="checkbox" id="task1">
+            <label for="task1">Morning Meditation</label>
+        </li>
+        <li class="activity-item">
+            <input type="checkbox" id="task2">
+            <label for="task2">Drink 2L Water</label>
+        </li>
+        <li class="activity-item">
+            <input type="checkbox" id="task3">
+            <label for="task3">30 Mins Exercise</label>
+        </li>
+        <li class="activity-item">
+            <input type="checkbox" id="task4">
+            <label for="task4">Read 10 Pages</label>
+        </li>
+        <li class="activity-item">
+            <input type="checkbox" id="task5">
+            <label for="task5">Coding Practice</label>
+        </li>
+    </ul>
+
+    <button class="reset-btn" onclick="resetTasks()">Reset for Tomorrow</button>
+</div>
+
+<script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Load saved states from localStorage
+    checkboxes.forEach(box => {
+        const savedState = localStorage.getItem(box.id);
+        if (savedState === 'true') {
+            box.checked = true;
+        }
+
+        // Add event listener to save changes
+        box.addEventListener('change', () => {
+            localStorage.setItem(box.id, box.checked);
+        });
+    });
+
+    // Reset function
+    function resetTasks() {
+        if(confirm("Clear all progress?")) {
+            checkboxes.forEach(box => {
+                box.checked = false;
+                localStorage.setItem(box.id, false);
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
